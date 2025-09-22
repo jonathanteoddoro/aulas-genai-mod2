@@ -83,23 +83,8 @@ from langchain.schema import Document                       # Estrutura de docum
    - OpenAI Chat Completions
    - Retorne (resposta, docs)
 
-### 🔍 Onde encontrar a lógica:
-- **Atividade 1**: arquivo `atv_01.py`
-- **Funções de referência**: 
-  - `criar_base_vetorial()` → copiar lógica
-  - `buscar_resposta_rag()` → copiar lógica
 
-### ✅ Como testar:
-1. Execute `streamlit run atv_02.py`
-2. Faça upload de um PDF
-3. Clique "Processar Documento"
-4. Digite uma pergunta
-5. Verifique se a resposta aparece
-
-### 🎯 Objetivo Pedagógico:
-Aprender a **migrar lógica RAG** de uma interface de terminal (Atividade 1) para uma **interface web** (Streamlit), mantendo a mesma funcionalidade core.
-
-## �🚀 Como Executar o Template
+## Como Executar o Template
 
 ### 1. Instalar Dependências
 ```bash
@@ -116,12 +101,3 @@ streamlit run atv_02.py
 2. Clique em "Processar Documento"
 3. Digite perguntas sobre o conteúdo
 4. Visualize respostas e trechos consultados
-
-## 🎯 Diferenças da Atividade 1 (Para Implementar)
-
-### ✅ Semelhanças a Manter:
-- **Função RAG**: Usar mesma lógica `buscar_resposta_rag()`
-- **Text Splitter**: CharacterTextSplitter com mesmos parâmetros
-- **Prompt**: Mesma estrutura de contexto + pergunta
-- **API**: OpenAI Chat Completions direta
-- **Parâmetros**: chunk_size=1000, overlap=200, k=3, temperature=0.3
