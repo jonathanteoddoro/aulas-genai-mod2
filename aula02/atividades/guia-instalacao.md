@@ -33,7 +33,7 @@ pip install streamlit PyPDF2 langchain langchain-openai langchain-community open
 python -c "import streamlit, PyPDF2, langchain, openai; print('✅ Tudo instalado!')"
 ```
 
-### 4️⃣ Executar Atividades
+### 4️⃣ Para Executar Atividades
 
 **Atividade 1 (Terminal):**
 ```bash
@@ -47,8 +47,7 @@ streamlit run atv_02.py
 
 ## 🔑 Configuração OpenAI
 
-1. Obtenha sua chave em: https://platform.openai.com/api-keys
-2. Substitua `"sua_api_key_aqui"` nos arquivos Python
+1. Substitua `"sua_api_key_aqui"` nos arquivos Python
 
 ## 🛠️ Troubleshooting
 
