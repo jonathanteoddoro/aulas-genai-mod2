@@ -45,10 +45,19 @@ def extrair_texto_pdf(arquivo_pdf):
 
 def criar_base_vetorial(texto):
     try:
-        """Espaço para implementar a criação da base vetorial como exercício
-            A função deve retornar o objeto vectorstore e o número de chunks criados
-            Pode colocar a lógica da atividade a baixo
-        """
+        # Divisão em chunks usando CharacterTextSplitter
+        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        
+        # Criar documento a partir do texto
+        document = Document(page_content=texto)
+        
+        # Dividir o documento em chunks
+        texts = text_splitter.split_documents([document])
+        
+        # Criação de embeddings e base vetorial
+        embeddings = OpenAIEmbeddings()
+        vectorstore = Chroma.from_documents(texts, embeddings)
+        
         return vectorstore, len(texts)
     
     except Exception as e:
@@ -57,10 +66,41 @@ def criar_base_vetorial(texto):
 
 def buscar_resposta_rag(pergunta, vectorstore):
     try:
-        """Espaço para implementar a busca de resposta RAG como exercício
-            A função deve retornar a resposta e os documentos relevantes
-            Pode colocar a lógica da atividade a baixo
-        """
+        # Recuperar documentos relevantes
+        docs = vectorstore.similarity_search(pergunta, k=3)
+        
+        # Construir contexto a partir dos documentos recuperados
+        contexto = "\n\n".join([doc.page_content for doc in docs])
+        
+        # Criar prompt estruturado
+        prompt = f"""Baseado nas informações fornecidas no documento, responda à pergunta de forma precisa e detalhada.
+
+        CONTEXTO:
+        {contexto}
+
+        PERGUNTA: {pergunta}
+
+        INSTRUÇÕES:
+        - Use apenas as informações do contexto fornecido
+        - Seja específico e preciso na resposta
+        - Se a informação não estiver no contexto, informe que não foi encontrada
+
+        RESPOSTA:"""
+
+        # Cliente OpenAI para RAG
+        client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        
+        # Chamada para OpenAI Chat Completions
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "Você é um assistente especializado em responder perguntas sobre documentos baseado apenas no conteúdo fornecido."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            max_tokens=500
+        )
+        
         return response.choices[0].message.content, docs
     
     except Exception as e:
