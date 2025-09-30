@@ -10,56 +10,6 @@ OPENAI_API_KEY = "SUA_CHAVE_AQUI"
 
 # PASSO 2: Crie as ferramentas (tools) usando o decorator @tool
 
-@tool
-def obter_clima(cidade: str) -> str:
-    """
-    Retorna informações simuladas sobre o clima de uma cidade.
-    
-    Args:
-        cidade: Nome da cidade para consultar o clima
-        
-    Returns:
-        String com informações do clima
-    """
-    # TODO: Implemente a lógica da função
-    # Dica: Use um dicionário com cidades e suas informações de clima simuladas
-    # Exemplo de estrutura:
-    # climas = {
-    #     "são paulo": {"temp": 25, "condicao": "Ensolarado"},
-    #     "rio de janeiro": {"temp": 30, "condicao": "Parcialmente nublado"},
-    #     ...
-    # }
-    # Retorne uma string formatada com as informações
-    
-    return "IMPLEMENTE AQUI - retorne informações de clima simuladas"
-
-
-@tool
-def converter_moeda(valor: float, moeda_origem: str, moeda_destino: str) -> str:
-    """
-    Converte valores entre diferentes moedas usando taxas fixas simuladas.
-    
-    Args:
-        valor: Valor a ser convertido
-        moeda_origem: Moeda de origem (ex: "BRL", "USD", "EUR")
-        moeda_destino: Moeda de destino (ex: "BRL", "USD", "EUR")
-        
-    Returns:
-        String com o resultado da conversão
-    """
-    # TODO: Implemente a lógica da conversão
-    # Dica: Crie um dicionário com taxas de câmbio fixas
-    # Exemplo:
-    # taxas = {
-    #     "BRL": 1.0,
-    #     "USD": 5.0,
-    #     "EUR": 5.5,
-    #     "GBP": 6.3
-    # }
-    # Converta primeiro para BRL, depois para moeda_destino
-    
-    return "IMPLEMENTE AQUI - retorne o valor convertido"
-
 
 @tool
 def calcular_imc(peso: float, altura: float) -> str:
@@ -89,23 +39,10 @@ def calcular_imc(peso: float, altura: float) -> str:
 # =============================================================================
 
 def criar_agente():
-    """
-    Cria e configura o agente com as ferramentas disponíveis.
-    """
-    # TODO: Complete a configuração do agente
+    # LLM
+    # Tools
     
-    # 3.1: Inicialize o modelo da OpenAI
-    llm = ChatOpenAI(
-        model="gpt-4o-mini",  
-        api_key=OPENAI_API_KEY,
-        temperature=0.3
-    )
     
-    # 3.2: Liste suas ferramentas criadas
-    tools = [
-    ]
-    
-    # 3.3: Crie o prompt do agente
     prompt = ChatPromptTemplate.from_messages([
         ("system", """Você é um assistente útil que pode ajudar com:
         - Informações de clima de cidades
@@ -117,15 +54,8 @@ def criar_agente():
         ("placeholder", "{agent_scratchpad}")
     ])
     
-    # 3.4: Crie o agente e o executor
-    agent = create_tool_calling_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(
-        agent=agent,
-        tools=tools,
-        verbose=True,  
-        handle_parsing_errors=True
-    )
-    
+    # Agent
+    # Agent Executor    
     return agent_executor
 
 
